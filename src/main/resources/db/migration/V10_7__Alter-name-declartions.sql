@@ -1,0 +1,1 @@
+ALTER TABLE declarations MODIFY name VARCHAR(900);

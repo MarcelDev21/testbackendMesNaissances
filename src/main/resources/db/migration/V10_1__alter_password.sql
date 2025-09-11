@@ -1,0 +1,2 @@
+ALTER TABLE profiles
+MODIFY COLUMN password VARCHAR(300);
