@@ -1,0 +1,20 @@
+name: "deploy microservice"
+run-name: ${{ github.actor }} is learning GitHub Actions
+on:
+  push:
+  workflow-dispatch:
+
+jobs:
+  Explore-Github-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Event name
+        run: echo "the job was automatically triggered by a ${{ github.event_name }} event."
+
+      - name: checkout the repository code
+        uses: actions/checkout@v4
+
+      - name: list files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "this job status is ${{ job.status }}."
