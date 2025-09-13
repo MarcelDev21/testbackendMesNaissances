@@ -19,7 +19,7 @@ jobs:
           script: |
             mkdir -p /opt/mes-naissances/ms-naissances
 
-  generate-project-and-copy-to-my-server:
+  generate-project-and-copy-to-server:
     name: generate project and copy to server
     runs-on: ubuntu-latest
     needs:
