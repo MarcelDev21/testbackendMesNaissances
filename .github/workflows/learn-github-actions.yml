@@ -62,8 +62,33 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_PRIVATE_KEY}}
           port: ${{ secrets.SERVER_PORT }}
+          envs: APPLICATION_DATABASE,APPLICATION_USERNAME,APPLICATION_PASSWORD,APPLICATION_MAIL_SERVER
           script: |
-              ln -sf /opt/mes-naissances/ms-naissances/target/ms-naissances.jar /etc/init.d/ms-naissances
-              /etc/init.d/ms-naissances stop
-              /etc/init.d/ms-naissances start --spring.datasource.url=${{ secrets.APPLICATION_DATABASE }} --spring.datasource.username=${{ secrets.APPLICATION_USERNAME }} --spring.datasource.password=${{ secrets.APPLICATION_PASSWORD }} --application.mails.server=${{ secrets.APPLICATION_PASSWORD }}
+            # Création du fichier systemd
+            sudo tee /etc/systemd/system/ms-naissances.service > /dev/null << 'EOF'
+            [Unit]
+            Description=MS Naissances Spring Boot Service
+            After=network.target
 
+            [Service]
+            User=root
+            WorkingDirectory=/opt/mes-naissances/ms-naissances
+            ExecStart=/usr/bin/java -jar /opt/mes-naissances/ms-naissances/ms-naissances.jar \
+            --spring.datasource.url=${{ secrets.APPLICATION_DATABASE }} \
+            --spring.datasource.username=${{ secrets.APPLICATION_USERNAME }} \
+            --spring.datasource.password=${{ secrets.APPLICATION_PASSWORD }} \
+            --application.mails.server=${{ secrets.APPLICATION_MAIL_SERVER }}
+            SuccessExitStatus=143
+            StandardOutput=file:/opt/mes-naissances/ms-naissances/ms-naissances.log
+            StandardError=file:/opt/mes-naissances/ms-naissances/ms-naissances.log
+            Restart=always
+            RestartSec=10
+
+            [Install]
+            WantedBy=multi-user.target
+            EOF
+
+            # Activer et démarrer le service
+            sudo systemctl daemon-reload
+            sudo systemctl enable ms-naissances
+            sudo systemctl restart ms-naissances
