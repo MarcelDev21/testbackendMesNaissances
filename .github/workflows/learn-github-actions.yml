@@ -63,7 +63,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_PRIVATE_KEY}}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-              ln -sf /opt/mes-naissances/ms-naissances/target/ms-naissances.jar /etc/init.d/ms-naissances.jar
+              ln -sf /opt/mes-naissances/ms-naissances/target/ms-naissances.jar /etc/init.d/ms-naissances
               /etc/init.d/ms-naissances.jar stop
               /etc/init.d/ms-naissances.jar start --spring.datasource.url=${{ secrets.APPLICATION_DATABASE }} --spring.datasource.username=${{ secrets.APPLICATION_USERNAME }} --spring.datasource.password=${{ secrets.APPLICATION_PASSWORD }} --application.mails.server=${{ secrets.APPLICATION_PASSWORD }}
 
