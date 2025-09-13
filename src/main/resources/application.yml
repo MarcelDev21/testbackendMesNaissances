@@ -3,7 +3,7 @@ spring:
     name: ms-naissances
   datasource:
     username: root
-    password: Mfoulou237@
+    password: root
     url: jdbc:mysql://localhost:3306/db_naissance
   jpa:
     hibernate:
