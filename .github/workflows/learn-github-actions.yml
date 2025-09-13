@@ -56,7 +56,7 @@ jobs:
       - generate-project-and-copy-to-server
     steps:
       - name: Executer le projet
-        uses: appleboy/ssh-action@v1
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
@@ -64,6 +64,6 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
               ln -sf /opt/mes-naissances/ms-naissances/target/ms-naissances.jar /etc/init.d/ms-naissances
-              /etc/init.d/ms-naissances stop
-              /etc/init.d/ms-naissances start --spring.datasource.url=${{ secrets.APPLICATION_DATABASE }} --spring.datasource.username=${{ secrets.APPLICATION_USERNAME }} --spring.datasource.password=${{ secrets.APPLICATION_PASSWORD }} --application.mails.server=${{ secrets.APPLICATION_PASSWORD }}
+              sudo /etc/init.d/ms-naissances stop
+              sudo /etc/init.d/ms-naissances start --spring.datasource.url=${{ secrets.APPLICATION_DATABASE }} --spring.datasource.username=${{ secrets.APPLICATION_USERNAME }} --spring.datasource.password=${{ secrets.APPLICATION_PASSWORD }} --application.mails.server=${{ secrets.APPLICATION_PASSWORD }}
 
