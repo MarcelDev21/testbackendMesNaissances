@@ -19,16 +19,23 @@ jobs:
           script: |
             mkdir -p /opt/mes-naissances/ms-naissances
 
-  Explore-Github-Actions:
+  generate-project:
     runs-on: ubuntu-latest
+    needs:
+      - create-folder
     steps:
-      - name: Event name
-        run: echo "the job was automatically triggered by a ${{ github.event_name }} event."
-
       - name: checkout the repository code
         uses: actions/checkout@v4
-
-      - name: list files in the repository
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: '21'
+      - name: generate project
         run: |
-          ls ${{ github.workspace }}
-      - run: echo "this job status is ${{ job.status }}."
+          ./mvnw clean package spring-boot:repackage -Dmaven.test.skip=true
+           ls -al target
+      - name: rename project
+        run: |
+          mv target/ms-naissances*.jar ms-naissances.jar
+      
+
