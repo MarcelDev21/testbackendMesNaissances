@@ -73,7 +73,7 @@ jobs:
             [Service]
             User=root
             WorkingDirectory=/opt/mes-naissances/ms-naissances
-            ExecStart=/usr/bin/java -jar /opt/mes-naissances/ms-naissances/ms-naissances.jar \
+            ExecStart=/usr/bin/java -jar /opt/mes-naissances/ms-naissances/target/ms-naissances.jar \
             --spring.datasource.url=${{ secrets.APPLICATION_DATABASE }} \
             --spring.datasource.username=${{ secrets.APPLICATION_USERNAME }} \
             --spring.datasource.password=${{ secrets.APPLICATION_PASSWORD }} \
